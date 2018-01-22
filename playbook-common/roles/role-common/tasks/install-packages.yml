@@ -1,0 +1,63 @@
+---
+# task
+
+- name: Installing wanted packages from the repository
+  yum:  name="{{ item }}" state=present
+  ignore_errors: yes
+  with_items:
+    - kexec-tools
+    - nmap
+    - system-config-firewall-base
+    - hmaccalc
+    - telnet
+    - ksh
+    - mksh
+    - tcpdump
+    - lsscsi
+    - mc
+    - screen
+    - strace
+    - lsof
+    - sg3_utils
+    - dos2unix
+    - unix2dos
+    - xinetd
+    - sysstat
+    - pam_krb5
+    - krb5-workstation
+    - curl
+    - wget
+    - ftp
+    - tftp
+    - vim
+    - bind-utils
+    - openssh-clients
+    - ntp
+    - ntpdate
+    - nscd
+    - dmidecode
+    - links
+    - lynx
+    - curl
+    - less
+    - psmisc
+    - mailx
+    - net-tools
+    - pciutils
+    - tftp-server
+    - tftp
+    - rsync
+    - parted
+    - tree
+    - nfs-utils
+    - autofs
+    - xdelta
+    - python-deltarpm
+    - deltarpm 
+    - deltaiso
+    - tmux-top
+    - tmux
+    - traceroute
+    - xorg-x11-apps
+    - xauth
+    - pam_script

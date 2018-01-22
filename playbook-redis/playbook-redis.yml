@@ -1,0 +1,7 @@
+# test.yml
+---
+- hosts: singlehost
+  become: yes
+
+  roles:
+     - role-redis

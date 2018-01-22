@@ -1,0 +1,21 @@
+---
+# task
+
+- service: name={{ item }} enabled=no state=stopped masked=no daemon_reload=yes
+
+  with_items:
+  - avahi-daemon
+  - abrtd
+  - abrt-xorg
+  - abrt-ccpp
+  - abrt-oops
+  - kdump
+  - irqbalance
+  - firewalld
+  - iptables
+  - xinetd
+  - nscd
+  - rpcbind
+  - smartd
+
+  ignore_errors: yes

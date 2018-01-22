@@ -1,0 +1,13 @@
+---
+# tasks file for CentOS-tuning
+
+- block:
+
+  - include_tasks: disable-unwanted-services.yml
+  - include_tasks: enable-needed-services.yml
+  - include_tasks: change-grub2-cfg.yml
+  - include_tasks: install-packages.yml
+  - include_tasks: install-zabbix-agent.yml
+  - include_tasks: install-additional-repositories.yml
+
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' and ansible_distribution_major_version == '7'

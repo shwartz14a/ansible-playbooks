@@ -1,0 +1,17 @@
+---
+# handlers file for playbook-common
+
+- name: start zabbix-agent
+  systemd: name=zabbix-agent state=started
+
+- name: reload zabbix-agent
+  systemd: name=zabbix-agent state=reloaded
+
+- name: stop zabbix-agent
+  systemd: name=zabbix-agent state=stopped
+
+- name: yum-clean-all
+  command: yum clean all
+  args:
+    warn: no
+

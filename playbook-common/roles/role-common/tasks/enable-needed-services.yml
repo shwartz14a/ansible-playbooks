@@ -1,0 +1,16 @@
+---
+# task
+
+- service: name={{ item }} enabled=yes state=started masked=no daemon_reload=yes
+
+  with_items:
+  - auditd
+  - sshd
+  - NetworkManager
+  - crond
+  - rsyslog
+  - zabbix-agent
+  - postfix
+  - tuned
+
+  ignore_errors: yes

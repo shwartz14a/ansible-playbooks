@@ -1,0 +1,25 @@
+---
+# task
+
+- lineinfile:
+    path: /etc/default/grub
+    backup: yes
+    backrefs: yes
+    line: 'GRUB_TIMEOUT=17'
+    regexp: '^GRUB_TIMEOUT='
+    state: present
+  ignore_errors: yes
+
+- lineinfile:
+    path: /etc/default/grub
+    backup: yes
+    #backrefs: yes
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="crashkernel=128M net.ifnames=0 biosdevname=0 ipv6.disable=1 selinux=0 elevator=deadline noibrs noibpb nopti"'
+    #regexp: '^GRUB_CMDLINE_LINUX='
+    state: present
+  ignore_errors: yes
+
+- name: Making new grub.cfg
+  command: grub2-mkconfig -o /boot/grub2/grub.cfg
+  ignore_errors: yes
+
