@@ -1,0 +1,14 @@
+[master]
+192.168.122.107
+
+[slaves:children]
+slave01
+slave02
+
+[master:vars]
+ntp_server=ntp.atlanta.example.com
+proxy=proxy.atlanta.example.com
+
+[slaves:vars]
+ntp_server=ntp.atlanta.example.com
+proxy=proxy.atlanta.example.com
