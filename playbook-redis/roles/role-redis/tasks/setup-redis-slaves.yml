@@ -1,0 +1,7 @@
+# tasks file
+
+- name: Backup main redis config file
+  command: cp /etc/redis.conf /etc/redis.conf.default
+  notify: start redis
+  ignore_errors: no
+

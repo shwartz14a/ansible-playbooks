@@ -1,6 +1,6 @@
 # test.yml
 ---
-- hosts: singlehost
+- hosts: local
   become: yes
 
   roles:
