@@ -2,6 +2,9 @@
 
 - name: Backup main redis config file
   command: cp /etc/redis.conf /etc/redis.conf.default
-  notify: start redis
   ignore_errors: no
+
+- name: copy redis.conf to the aproppriate place
+  template: src=redis-slave.conf.j2 dest=/etc/redis.conf
+  notify: restart redis
 
