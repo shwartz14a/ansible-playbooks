@@ -4,6 +4,7 @@
   become: yes
   roles:
           - { role: role-redis-base }
+          - { role: role-redis-sentinel }
 
 - hosts: redis-master
   become: yes

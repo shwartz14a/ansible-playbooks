@@ -7,14 +7,6 @@ node {
       string(name: 'target_host', defaultValue: '', description: 'Insert hostname'),
       choice(name: 'env',  choices:'dev\nstage\nprod-ams\nprod-rot', description: 'Select Environment'),
       choice(name: 'sip_service', choices: 'False\nTrue', description: 'Sip interface is present'),
-      // string(name: 'vm_memory', defaultValue: '2048', description: ''),
-      // string(name: 'vm_cpu_cores', defaultValue: '1', description: ''),
-      // string(name: 'vm_cpu_sockets', defaultValue: '1', description: ''),
-      // string(name: 'vm_template', defaultValue: 'CentOS-7-1709', description: ''),
-      // choice(name: 'vm_cluster', choices: 'Development\nProduction', description: ''),
-      // string(name: 'ovirt_user', defaultValue: 'kwadmin@internal', description: ''),
-      // choice(name: 'ovirt_url', choices: 'https://engine.dev.tc5.ams.nl.kwebbl.loc:443/api\nhttps://engine.prd.tc5.ams.nl.kwebbl.loc:443/api', description: ''),
-      // password(name: 'ovirt_passwd', defaultValue: '', description: ''),
       password(name: 'ansible_sudo_pass', defaultValue: '', description: 'Input passwd for sudo user')
       ])
     ])
