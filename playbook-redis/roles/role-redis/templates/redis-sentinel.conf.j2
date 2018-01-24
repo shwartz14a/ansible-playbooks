@@ -1,0 +1,19 @@
+port 26379
+dir "/tmp"
+daemonize no
+pidfile "/var/run/redis/redis-sentinel.pid"
+
+sentinel monitor nl-ams-kwebbl {{groups['redis-master'][0]}} 6379 2
+sentinel down-after-milliseconds nl-ams-kwebbl 400
+sentinel failover-timeout nl-ams-kwebbl 1800
+sentinel config-epoch nl-ams-kwebbl 185
+
+logfile "/var/log/redis/sentinel.log"
+sentinel leader-epoch nl-ams-kwebbl 185
+sentinel known-slave nl-ams-kwebbl {{groups['redis-slaves'][0]}} 6379
+sentinel known-slave nl-ams-kwebbl {{groups['redis-slaves'][1]}} 6379
+sentinel known-sentinel nl-ams-kwebbl 10.60.25.40 26379 523820089eb7f2799c6dd2ba7a9a04be9145e19c
+sentinel known-sentinel nl-ams-kwebbl 10.60.25.38 26379 f93b1861a193a5a23079edbc27f1828f13c9d2d0
+
+sentinel current-epoch 185
+

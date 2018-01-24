@@ -13,19 +13,6 @@
 - name: stop redis
   systemd: name=redis state=stopped
 
-- name: start redis-sentinel
-  systemd: name=redis-sentinel state=started
-
-- name: reload redis-sentinel
-  systemd: name=redis-sentinel state=reloaded
-
-- name: restart redis-sentinel
-  systemd: name=redis-sentinel state=restarted
-
-- name: stop redis-sentinel
-  systemd: name=redis-sentinel state=stopped
-
-
 - name: yum-clean-all
   command: yum clean all
   args:

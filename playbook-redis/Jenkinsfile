@@ -1,0 +1,55 @@
+node {
+
+  deleteDir()
+
+  properties([
+    parameters([
+      string(name: 'target_host', defaultValue: '', description: 'Insert hostname'),
+      choice(name: 'env',  choices:'dev\nstage\nprod-ams\nprod-rot', description: 'Select Environment'),
+      choice(name: 'sip_service', choices: 'False\nTrue', description: 'Sip interface is present'),
+      // string(name: 'vm_memory', defaultValue: '2048', description: ''),
+      // string(name: 'vm_cpu_cores', defaultValue: '1', description: ''),
+      // string(name: 'vm_cpu_sockets', defaultValue: '1', description: ''),
+      // string(name: 'vm_template', defaultValue: 'CentOS-7-1709', description: ''),
+      // choice(name: 'vm_cluster', choices: 'Development\nProduction', description: ''),
+      // string(name: 'ovirt_user', defaultValue: 'kwadmin@internal', description: ''),
+      // choice(name: 'ovirt_url', choices: 'https://engine.dev.tc5.ams.nl.kwebbl.loc:443/api\nhttps://engine.prd.tc5.ams.nl.kwebbl.loc:443/api', description: ''),
+      // password(name: 'ovirt_passwd', defaultValue: '', description: ''),
+      password(name: 'ansible_sudo_pass', defaultValue: '', description: 'Input passwd for sudo user')
+      ])
+    ])
+
+  stage 'Checkout'
+    checkout([$class: 'GitSCM',
+        branches: [[name: '*/master']],
+        doGenerateSubmoduleConfigurations: false,
+        extensions: [],
+        submoduleCfg: []
+        // userRemoteConfigs: [[credentialsId: 'jendep', url: 'git@bitbucket.org:kwebbl/playbook-common.git']]
+        ])
+
+ stage 'Prepare Ansible Environment'
+    sh 'git submodule update --init'
+    sh 'git submodule update --remote'
+    sh 'ansible-galaxy install -r requirements.yml'
+
+ stage 'Create Inventory'
+    sh 'echo -e "[singlehost]\n"$target_host > environments/$env/singlehost'
+
+  stage 'Setting common parameters'
+    wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+      ansiblePlaybook(
+         playbook:    'common.yml',
+         inventory:   'environments/$env/singlehost',
+         credentialsId: 'sudo_user',
+         sudo: true,
+         colorized:   true,
+         extraVars: [
+            ansible_sudo_pass: [value: "$ansible_sudo_pass", hidden: true] ,
+            target_host: "$target_host",
+            env: "$env"
+
+        ]
+      )
+    }
+}

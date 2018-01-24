@@ -1,0 +1,9 @@
+---
+# tasks file for playbook-redis
+
+- block:
+  
+   - include_tasks: setup-redis-master.yml
+  
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' and ansible_distribution_major_version == '7'
+

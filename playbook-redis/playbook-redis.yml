@@ -1,7 +1,0 @@
-# test.yml
----
-- hosts: local
-  become: yes
-
-  roles:
-     - role-redis

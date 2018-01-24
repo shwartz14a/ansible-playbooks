@@ -1,15 +1,21 @@
 [redis-master]
-mymegaredismaster.localdomain
-#192.168.122.107
+192.168.122.242
 
 [redis-slaves]
 192.168.122.107
+192.168.122.46
 
-[redis-master:vars]
-ntp_server=ntp.atlanta.example.com
-proxy=proxy.atlanta.example.com
+[redis-cluster-nodes:children]
+redis-master
+redis-slaves
 
-[redis-slaves:vars]
-ntp_server=ntp.atlanta.example.com
-proxy=proxy.atlanta.example.com
+[redis-sentinel:children]
+redis-slaves
+
+# [redis-master:vars]
+# redis-role: master
+
+# [redis-slaves:vars]
+# ntp_server=ntp.atlanta.example.com
+# proxy=proxy.atlanta.example.com
 

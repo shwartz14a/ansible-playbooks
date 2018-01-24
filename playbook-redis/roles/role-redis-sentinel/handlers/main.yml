@@ -1,18 +1,6 @@
 ---
 # handlers file for playbook-redis
 
-- name: start redis
-  systemd: name=redis state=started
-
-- name: reload redis
-  systemd: name=redis state=reloaded
-
-- name: restart redis
-  systemd: name=redis state=restarted
-
-- name: stop redis
-  systemd: name=redis state=stopped
-
 - name: start redis-sentinel
   systemd: name=redis-sentinel state=started
 
@@ -24,7 +12,6 @@
 
 - name: stop redis-sentinel
   systemd: name=redis-sentinel state=stopped
-
 
 - name: yum-clean-all
   command: yum clean all

@@ -5,6 +5,6 @@
   ignore_errors: no
 
 - name: copy redis.conf to the aproppriate place
-  template: src=redis-slaves.conf.j2 dest=/etc/redis.conf
+  template: src=redis-master.conf.j2 dest=/etc/redis.conf
   notify: restart redis
 

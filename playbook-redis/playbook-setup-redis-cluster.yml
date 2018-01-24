@@ -1,0 +1,18 @@
+# test.yml
+---
+- hosts: redis-cluster-nodes
+  become: yes
+  roles:
+          - { role: role-redis-base }
+
+- hosts: redis-master
+  become: yes
+  roles:
+          - { role: role-redis-master }
+
+- hosts: redis-slaves
+  become: yes
+  roles:
+          - { role: role-redis-slaves }
+
+
