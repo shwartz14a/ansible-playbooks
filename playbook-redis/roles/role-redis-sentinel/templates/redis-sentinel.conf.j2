@@ -9,15 +9,4 @@ sentinel failover-timeout nl-ams-kwebbl 1800
 sentinel config-epoch nl-ams-kwebbl 185
 
 logfile "/var/log/redis/sentinel.log"
-sentinel leader-epoch nl-ams-kwebbl 185
-sentinel known-slave nl-ams-kwebbl {{groups['redis-slaves'][0]}} 6379
-sentinel known-slave nl-ams-kwebbl {{groups['redis-slaves'][1]}} 6379
-sentinel known-sentinel nl-ams-kwebbl 10.60.25.40 26379 523820089eb7f2799c6dd2ba7a9a04be9145e19c
-{% for host in groups['redis-cluster-nodes'] %}
-{% if host != inventory_hostname %}
-sentinel known-sentinel nl-ams-kwebbl {{host}} 26379 SomeSecrEt
-{% endif %}
-{% endfor %}
-
-sentinel current-epoch 185
 
