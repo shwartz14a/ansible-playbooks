@@ -1,5 +1,0 @@
-- name: debug
-  debug:
-    msg: "{{ hostvars[item] }}"
-  when: item != inventory_hostname
-  with_items: "{{ groups['redis-cluster-nodes'] }}"

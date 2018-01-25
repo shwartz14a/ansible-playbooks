@@ -1,4 +1,4 @@
-# test.yml
+# playbook-setup-redis-cluster.yml
 ---
 - hosts: redis-cluster-nodes
   become: yes

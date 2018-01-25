@@ -1,8 +1,0 @@
----
-# task
-
-- name: Installing wanted packages from the repository
-  yum:  name="{{ item }}" state=present
-  ignore_errors: no
-  with_items:
-    - redis

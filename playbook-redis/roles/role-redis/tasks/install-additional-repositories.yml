@@ -1,8 +1,0 @@
----
-# task for installation additional repositories, like epel.
-
-- name: Adding appropriate repository to the system
-  yum: name=http://ftp.colocall.net/pub/epel/epel-release-latest-7.noarch.rpm
-  ignore_errors: no
-  notify: yum-clean-all
-
