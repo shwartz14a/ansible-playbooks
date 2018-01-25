@@ -16,4 +16,3 @@
   roles:
           - { role: role-redis-slaves }
 
-
