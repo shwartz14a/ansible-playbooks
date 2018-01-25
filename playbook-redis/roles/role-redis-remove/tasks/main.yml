@@ -1,0 +1,10 @@
+---
+# tasks file for playbook-redis-remove
+
+- block:
+  
+  - include_tasks: disable-needed-services.yml
+  - include_tasks: remove-packages.yml
+
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' and ansible_distribution_major_version == '7'
+

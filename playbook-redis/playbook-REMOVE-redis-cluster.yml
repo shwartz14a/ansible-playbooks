@@ -1,0 +1,6 @@
+# playbook-REMOVE-redis-cluster.yml
+---
+- hosts: redis-cluster-nodes
+  become: yes
+  roles:
+          - { role: role-redis-remove }

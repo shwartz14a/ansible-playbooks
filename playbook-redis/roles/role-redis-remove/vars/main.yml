@@ -1,0 +1,5 @@
+---
+# vars file for role-redis-remove
+
+date: "{{ lookup('pipe', 'date +%d%m%Y-%H%M') }}"
+

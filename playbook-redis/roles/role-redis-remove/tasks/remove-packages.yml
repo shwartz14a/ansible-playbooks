@@ -1,0 +1,22 @@
+---
+# task
+
+- name: backup redis.conf file with a date in name before removing package
+  shell: cp redis.conf redis.conf.{{ date }} ; cp redis-sentinel.conf redis-sentinel.conf.{{ date }}
+  args:
+    chdir: /etc/
+
+- name: Removing appropriate package...
+  yum:  name="{{ item }}" state=absent
+  ignore_errors: no
+  with_items:
+    - redis
+
+- user:
+    name: redis
+    state: absent
+    remove: yes
+
+- file: path=/etc/redis.conf state=absent
+- file: path=/etc/redis-sentinel.conf state=absent
+
