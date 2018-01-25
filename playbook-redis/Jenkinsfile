@@ -18,6 +18,7 @@ node {
         extensions: [],
         submoduleCfg: []
         // userRemoteConfigs: [[credentialsId: 'jendep', url: 'git@bitbucket.org:kwebbl/playbook-common.git']]
+        userRemoteConfigs: [[credentialsId: 'jendep', url: 'git@github.com:shwartz14a/ansible-playbooks.git']]
         ])
 
  stage 'Prepare Ansible Environment'
