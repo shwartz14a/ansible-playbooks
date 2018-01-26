@@ -9,8 +9,8 @@
 redis-master
 redis-slaves
 
-[redis-sentinel:children]
-redis-slaves
+# [redis-sentinel:children]
+# redis-slaves
 
 # [redis-master:vars]
 # redis-role: master
