@@ -1,0 +1,10 @@
+# playbook-setup-redis-master.yml
+---
+
+- hosts: redis-master
+  become: yes
+  roles:
+          - { role: role-redis-base }
+          - { role: role-redis-master }
+          - { role: role-redis-sentinel }
+

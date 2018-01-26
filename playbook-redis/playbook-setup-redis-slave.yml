@@ -1,0 +1,10 @@
+# playbook-setup-redis-cluster.yml
+---
+
+- hosts: redis-slaves
+  become: yes
+  roles:
+          - { role: role-redis-base }
+          - { role: role-redis-slaves }
+          - { role: role-redis-sentinel }
+
