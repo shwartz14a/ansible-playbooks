@@ -1,48 +1,59 @@
 node {
 
-  deleteDir()
+ deleteDir()
 
-  properties([
-    parameters([
-      string(name: 'target_host', defaultValue: '', description: 'Insert hostname'),
-      choice(name: 'env',  choices:'dev\nstage\nprod-ams\nprod-rot', description: 'Select Environment'),
-      choice(name: 'sip_service', choices: 'False\nTrue', description: 'Sip interface is present'),
-      password(name: 'ansible_sudo_pass', defaultValue: '', description: 'Input passwd for sudo user')
-      ])
-    ])
+ properties([
+   parameters([
+     string(name: 'target_host', defaultValue: '', description: 'Insert target hostname or IP-address'),
+     string(name: 'redis_master', defaultValue: '', description: 'Insert redis master hostname or IP-address'),
+     choice(name: 'env',  choices:'dev\nstage\nprod-ams\nprod-rot', description: 'Select Environment'),
+     choice(name: 'setup_master', choices: 'no\nyes', description: 'Redis master node install?'),
+     password(name: 'ansible_sudo_pass', defaultValue: '', description: 'Input passwd for sudo user')
+     ])
+   ])
 
-  stage 'Checkout'
-    checkout([$class: 'GitSCM',
-        branches: [[name: '*/master']],
-        doGenerateSubmoduleConfigurations: false,
-        extensions: [],
-        submoduleCfg: []
-        // userRemoteConfigs: [[credentialsId: 'jendep', url: 'git@bitbucket.org:kwebbl/playbook-common.git']]
-        userRemoteConfigs: [[credentialsId: 'jendep', url: 'git@github.com:shwartz14a/ansible-playbooks.git']]
-        ])
+ stage('Checkout') {
+   checkout([$class: 'GitSCM',
+       branches: [[name: '*/master']],
+       doGenerateSubmoduleConfigurations: false,
+       extensions: [],
+       submoduleCfg: [],
+       userRemoteConfigs: [[credentialsId: 'jendep', url: 'git@bitbucket.org:kwebbl/playbook-redis-cluster.git']] 
+       ])
+ }
 
- stage 'Prepare Ansible Environment'
-    sh 'git submodule update --init'
-    sh 'git submodule update --remote'
-    sh 'ansible-galaxy install -r requirements.yml'
-
- stage 'Create Inventory'
-    sh 'echo -e "[singlehost]\n"$target_host > environments/$env/singlehost'
-
-  stage 'Setting common parameters'
-    wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
-      ansiblePlaybook(
-         playbook:    'common.yml',
-         inventory:   'environments/$env/singlehost',
-         credentialsId: 'sudo_user',
-         sudo: true,
-         colorized:   true,
-         extraVars: [
-            ansible_sudo_pass: [value: "$ansible_sudo_pass", hidden: true] ,
-            target_host: "$target_host",
-            env: "$env"
-
-        ]
-      )
+ stage('Prepare Ansible Environment') {
+   sshagent(['jendep']) {
+     sh 'git submodule update --init'
+     sh 'git submodule update --remote'
     }
+   sshagent(['jendep']) {
+     sh 'ansible-galaxy install -r requirements.yml'
+   }
+ }
+ stage('Create Inventory file') {
+   sh 'echo -e "[redis-master]\n"$redis_master > environments/$env/redis-inventory'
+   sh 'echo -e "[redis-slaves]\n"$target_host >> environments/$env/redis-inventory'
+ }
+ stage('Setting common parameters') {
+   wrap([$class: 'AnsiColorBuildWrapper', colorMapName: "xterm"]) {
+     ansiblePlaybook(
+        // playbook:    'REMOVE-redis-cluster.yml',
+        playbook:    'setup-redis.yml',
+        inventory:   'environments/$env/redis-inventory',
+        credentialsId: 'sudo_user',
+        sudo: true,
+        colorized:   true,
+        extraVars: [
+           ansible_sudo_pass: [value: "$ansible_sudo_pass", hidden: true] ,
+           target_host: "$target_host",
+           env: "$env",
+           setup_master: '$setup_master',
+           // redis_master: '$redis_master'
+
+       ]
+     )
+   }
+ }
 }
+
